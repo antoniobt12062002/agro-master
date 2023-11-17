@@ -1,0 +1,4 @@
+/dist
+/node_modules
+.env
+aqua_service_api/.env

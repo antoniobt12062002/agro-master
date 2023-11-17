@@ -1,0 +1,17 @@
+{
+  "sub_title": {
+    "pt": "Sistema de monitoramento de solo",
+    "en": "Soil monitoring system",
+    "es": "Sistema de monitoreo del suelo"
+  },
+  "example_email": {
+    "pt": "Exemplo: email@dominio.com",
+    "en": "Example: email@domain.com",
+    "es": "Ejemplo: email@dominio.com"
+  },
+  "without_account": {
+    "pt": "Não possui uma conta? Registre-se aqui",
+    "en": "Don't have an account? Register here",
+    "es": "Não possui uma conta? Regístrese aquí"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "vsmqtt.brokerProfiles": [
+    {
+      "name": "Teste Mosquitto",
+      "host": "mqtt://test.mosquitto.org:1883",
+      "port": 1883,
+      "clientId": "vsmqtt_client_a543"
+    },
+    {
+      "name": "localhost",
+      "host": "mqtt://192.168.0.112:1883",
+      "port": 1883,
+      "clientId": "vsmqtt_client_f90f"
+    },
+    {
+      "name": "Ftp",
+      "host": "localhost",
+      "port": 1883,
+      "clientId": "vsmqtt_client_32ae"
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:import/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "eslint-config-prettier"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/resolver": {
+      "node": {
+        "paths": ["src"],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
+  "plugins": ["react", "prettier", "simple-import-sort"],
+  "rules": {
+    "import/named": "off",
+    "react/react-in-jsx-scope": "off",
+    "prettier/prettier": "error",
+    "import/no-unresolved": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": "interface",
+        "format": ["PascalCase"],
+        "prefix": ["I"]
+      },
+      {
+        "selector": "typeAlias",
+        "format": ["PascalCase"],
+        "suffix": ["Type"]
+      },
+      {
+        "selector": ["variable", "parameter"],
+        "format": ["camelCase", "PascalCase"]
+      },
+      {
+        "selector": ["function"],
+        "format": ["camelCase", "PascalCase"]
+      }
+    ],
+    "simple-import-sort/exports": "error",
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [
+          // React related packages.
+          ["^react$"],
+          // Packages
+          ["^@?\\w"],
+          // Internal packages. Add new folders here.
+          ["^(@|app)(/.*|$)"],
+          ["^(@|resources)(/.*|$)"],
+          // Side effect imports.
+          ["^\\u0000"],
+          // Parent imports. Put `..` last.
+          ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
+          // Other relative imports. Put same-folder imports and `.` last.
+          ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
+          // Types imports.
+          ["^.+types$"],
+          // Style imports.
+          ["^.+styles$"]
+        ]
+      }
+    ],
+    "import/newline-after-import": "error",
+    "@typescript-eslint/consistent-type-definitions": "off",
+    "@typescript-eslint/consistent-type-assertions": "off",
+    "consistent-return": "off",
+    "camelcase": "off"
+  }
+}
