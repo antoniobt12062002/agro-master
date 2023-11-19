@@ -1,8 +1,10 @@
+// Management.jsx
 import React, { useState } from 'react';
-import { MapContainer, TileLayer, Polygon } from 'react-leaflet';
+import { MapContainer, TileLayer, Polygon, ZoomControl } from 'react-leaflet';
 import { LatLngTuple } from 'leaflet';
 import { Wrapper } from '../../components';
 import { Container } from './Mangement.styles';
+import SoilStatistics from './SoilStatistics';
 
 export function Management(): JSX.Element {
   const { latitude, longitude, zoom, mapboxAccessToken } = {
@@ -23,17 +25,26 @@ export function Management(): JSX.Element {
   const limeHoverOptions = { color: '#086404', fillOpacity: 0.8 };
 
   const [isHovered, setIsHovered] = useState(false);
+  const [showStatistics, setShowStatistics] = useState(false);
+
   const handleMouseOver = () => setIsHovered(true);
   const handleMouseOut = () => setIsHovered(false);
 
+  const handlePolygonClick = () => {
+    setShowStatistics(!showStatistics);
+  };
+
+  const handleCloseStatistics = () => {
+    setShowStatistics(false);
+  };
+
   return (
-    <Wrapper title='Gerenciar mapa'>
+    <Wrapper title='Dashboard'>
       <Container>
         <MapContainer
           center={[latitude, longitude]}
           zoom={zoom}
           style={{ height: '100%', width: '100%', zIndex: '0' }}
-          zoomControl={false}
         >
           <TileLayer
             attribution='&copy; Agro Soil development | Map data &copy; OpenStreetMap contributors, Imagery &copy; Mapbox'
@@ -46,10 +57,16 @@ export function Management(): JSX.Element {
             eventHandlers={{
               mouseover: handleMouseOver,
               mouseout: handleMouseOut,
+              click: handlePolygonClick,
             }}
           />
 
+          <ZoomControl position="bottomright" />
         </MapContainer>
+
+        {showStatistics && (
+          <SoilStatistics onClose={handleCloseStatistics} />
+        )}
       </Container>
     </Wrapper>
   );
