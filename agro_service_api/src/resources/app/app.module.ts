@@ -31,6 +31,8 @@ import { SocketGateway } from 'src/gateways/socket.gateway';
         options: {
           subscribeOptions: { qos: 2 },
           url: 'mqtt://localhost:1883',
+          username: 'antoniobt123', 
+          password: 'antoniobt123',
         },
       },
     ]),
@@ -46,3 +48,4 @@ export class AppModule implements NestModule {
     consumer.apply(AuthMiddleware).forRoutes('/user/auth');
   }
 }
+

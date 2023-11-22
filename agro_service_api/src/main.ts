@@ -21,7 +21,7 @@ async function bootstrap() {
   app.use(compression());
 
   await app.listen(4040);
-  //await appTeste.listen();
+  await appTeste.listen();
 }
 
 bootstrap();

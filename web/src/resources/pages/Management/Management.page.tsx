@@ -11,7 +11,7 @@ export function Management(): JSX.Element {
     latitude: -24.022030,
     longitude: -52.502797,
     zoom: 16,
-    mapboxAccessToken: '',
+    mapboxAccessToken: 'pk.eyJ1IjoiYW50b25pb2J0IiwiYSI6ImNscDMzMHJmZTB3NHgya21qeWVqN24yOTEifQ.CfGnnfcWzNVd6Nq_fAY3qA',
   };
 
   const coordinates: LatLngTuple[] = [
