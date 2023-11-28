@@ -10,6 +10,7 @@ import { WebSocketModule } from '../websocket/websocket.module';
 import { WebSocketClient } from '../websocket/websocket.service';
 import { AuthMiddleware } from 'src/middleware/auth.middleware';
 import { SocketGateway } from 'src/gateways/socket.gateway';
+import { SensorSoloModule } from '../sensor/sensor-solo.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { SocketGateway } from 'src/gateways/socket.gateway';
     UserModule,
     ParametersModule,
     WebSocketModule,
+    SensorSoloModule,
   ],
   controllers: [AppController],
   providers: [AppService, SocketGateway, WebSocketClient],
