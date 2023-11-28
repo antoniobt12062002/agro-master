@@ -14,6 +14,9 @@ export class SensorSoloService {
 
   async saveSensorData(sensorData: SensorSoloEntity) {
     try {
+      // Adiciona a data de chegada antes de salvar
+      sensorData.dataChegada = new Date();
+
       const savedData = await this.sensorSoloRepository.save(sensorData);
       return savedData;
     } catch (error) {

@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
 
 @Entity('sensor_solo')
 export class SensorSoloEntity {
@@ -22,4 +22,7 @@ export class SensorSoloEntity {
 
   @Column({ type: 'float', nullable: true })
   ph: number;
+
+  @CreateDateColumn({ name: 'data_chegada' })
+  dataChegada: Date;
 }
