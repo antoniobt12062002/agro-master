@@ -1,3 +1,4 @@
+// app.module.ts
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -40,7 +41,7 @@ import { SensorSoloModule } from '../sensor/sensor-solo.module';
     UserModule,
     ParametersModule,
     WebSocketModule,
-    SensorSoloModule,
+    SensorSoloModule, // Certifique-se de incluir o SensorSoloModule aqui
   ],
   controllers: [AppController],
   providers: [AppService, SocketGateway, WebSocketClient],
@@ -50,4 +51,3 @@ export class AppModule implements NestModule {
     consumer.apply(AuthMiddleware).forRoutes('/user/auth');
   }
 }
-

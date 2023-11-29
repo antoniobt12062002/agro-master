@@ -1,4 +1,3 @@
-// sensor-solo.service.ts
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -11,30 +10,38 @@ export class SensorSoloService {
     private sensorSoloRepository: Repository<SensorSoloEntity>,
   ) {}
 
-  async saveSensorDataFromMqtt(dataString: string) {
-    try {
-      const [temperatura, umidade, condutividade, ph, nitrogenio, fosforo, potassio] = dataString.split(',');
+  async saveSensorDataFromMqtt(data: string) {
+    console.log('Received MQTT data:', data);
 
-      const entityData: SensorSoloEntity = this.sensorSoloRepository.create({
-        temperatura: parseFloat(temperatura),
-        umidade: parseFloat(umidade),
-        condutividade: parseFloat(condutividade),
-        ph: parseFloat(ph),
-        nitrogenio: parseFloat(nitrogenio),
-        fosforo: parseFloat(fosforo),
-        potassio: parseFloat(potassio),
-        dataChegada: new Date(),
+    try {
+      // Ajuste a string para um formato JSON válido
+      const adjustedData = `[${data}]`;
+
+      // Parse os dados recebidos do MQTT para um array
+      const sensorData = JSON.parse(adjustedData);
+
+      // Crie uma nova instância da entidade SensorSoloEntity
+      const newSensorData = this.sensorSoloRepository.create({
+        temperatura: parseFloat(sensorData[0]),
+        umidade: parseFloat(sensorData[1]),
+        condutividade: parseFloat(sensorData[2]),
+        ph: parseFloat(sensorData[3]),
+        nitrogenio: parseFloat(sensorData[4]),
+        fosforo: parseFloat(sensorData[5]),
+        potassio: parseFloat(sensorData[6]),
       });
 
-      const savedData = await this.sensorSoloRepository.save(entityData);
+      // Salve os dados no banco de dados
+      const savedData = await this.sensorSoloRepository.save(newSensorData);
+
       return savedData;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
-
   async getAllSensorData() {
     try {
+      // Recupera todos os dados do banco de dados
       const sensorData = await this.sensorSoloRepository.find();
       return sensorData;
     } catch (error) {
