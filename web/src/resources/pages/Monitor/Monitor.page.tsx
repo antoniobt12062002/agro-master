@@ -1,33 +1,41 @@
-import { Wrapper } from 'resources/components';
-import {
-  Container,
-  Content,
-  ContentDisplay,
-  Display,
-  Header,
-  StatusConnect,
-  TagStatus
-} from './Monitor.styles';
-import { useContext, useEffect, useRef, useState } from 'react';
-import { CheckCircleOutlined, SyncOutlined } from '@ant-design/icons';
-import { MessageData } from './components';
-import { WebSocketContext } from 'app/context';
-import { message } from 'antd';
-import { type MessageDataType } from './Monitor.types';
+// Monitor.tsx
 
-export function Monitor(): JSX.Element {
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { CheckCircleOutlined, SyncOutlined } from '@ant-design/icons';
+import { Card, message, Tag, Modal } from 'antd';
+import {
+  FireFilled,
+  FieldTimeOutlined,
+  AreaChartOutlined,
+  CloudFilled,
+  AlertOutlined,
+  DingdingOutlined,
+} from '@ant-design/icons';
+import { WebSocketContext } from 'app/context';
+import { Container, Content, Display, Header, StatusConnect, TagStatus, ContentDisplay } from './Monitor.styles';
+
+interface MonitorProps {
+  onClose: () => void;
+  visible: boolean;
+}
+
+const Monitor: React.FC<MonitorProps> = ({ onClose, visible }) => {
   const socket = useContext(WebSocketContext);
-  const [messages, setMessages] = useState<MessageDataType[]>([]);
+  const [dataValues, setDataValues] = useState<number[]>([]);
+  const [timestamp, setTimestamp] = useState<string | null>(null);
   const [connectedModule, setConnectedModule] = useState(false);
   const messageContainerRef = useRef(null);
 
   useEffect(() => {
     socket.on('message', ({ data }) => {
-      const dataRef: string = data.replace(/'/g, '"');
+      const dataArray: string[] = data.split(',');
 
-      const dataString: MessageDataType = JSON.parse(dataRef);
+      const numericValues: number[] = dataArray.slice(0, dataArray.length - 2).map(Number);
 
-      setMessages(prev => [...prev, dataString]);
+      const dateAndTime: string = `${dataArray[dataArray.length - 2]} ${dataArray[dataArray.length - 1]}`;
+
+      setTimestamp(dateAndTime);
+      setDataValues(numericValues);
     });
 
     if (socket.disconnected) {
@@ -41,23 +49,64 @@ export function Monitor(): JSX.Element {
   }, [socket.disconnected]);
 
   const scrollToBottom = () => {
-    const messageContainer : any  = messageContainerRef;
+    const messageContainer: any = messageContainerRef;
     if (messageContainer.current) {
       messageContainer.current.scrollTop = messageContainer.current.scrollHeight;
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     scrollToBottom();
-  }, [messages])
+  }, [dataValues, timestamp]);
+
+  const sensorDataLabelsTop = ['Nitrogênio', 'Fósforo', 'Potássio'];
+  const sensorDataLabelsBottom = ['Temperatura', 'Umidade', 'pH'];
+
+  const sensorDataUnits = ['mg/kg', 'mg/kg', 'mg/kg', '°C', '%', ''];
+
+  const statisticsDataTop = sensorDataLabelsTop.map((label, index) => ({
+    title: label,
+    value: `${dataValues[index]} ${sensorDataUnits[index]}`,
+    icon: getIcon(label),
+  }));
+
+  const statisticsDataBottom = sensorDataLabelsBottom.map((label, index) => ({
+    title: label,
+    value: `${dataValues[index + sensorDataLabelsTop.length]} ${sensorDataUnits[index + sensorDataLabelsTop.length]}`,
+    icon: getIcon(label),
+  }));
+
+  function getIcon(label: string) {
+    switch (label) {
+      case 'Temperatura':
+        return <FieldTimeOutlined />;
+      case 'Umidade':
+        return <CloudFilled />;
+      case 'pH':
+        return <DingdingOutlined />;
+      case 'Nitrogênio':
+        return <FireFilled />;
+      case 'Fósforo':
+        return <DingdingOutlined />;
+      case 'Potássio':
+        return <AreaChartOutlined />;
+      default:
+        return null;
+    }
+  }
 
   return (
-    <Wrapper title='Monitor de recursos'>
+    <Modal
+      visible={visible}
+      onCancel={onClose}
+      footer={null}
+      width="50vw"  // Ajuste o tamanho conforme necessário
+    >
       <Container>
         <Content>
           <Display>
             <Header>
-              <h1>Dados de saída do tracker</h1>
+              <h1>Monitor de recursos</h1>
               <StatusConnect>
                 <TagStatus
                   icon={
@@ -74,17 +123,40 @@ export function Monitor(): JSX.Element {
               </StatusConnect>
             </Header>
             <ContentDisplay ref={messageContainerRef}>
-              {messages.map((message, index) => (
-                <MessageData
-                  key={index}
-                  message={message.message}
-                  date={message.date}
-                />
-              ))}
+              <div>
+                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                  {statisticsDataTop.map((data, index) => (
+                    <Card key={index} style={{ width: '300px', margin: '20px' }}>
+                      <div>
+                        <div>{data.icon}</div>
+                        <div>
+                          <div>{data.title}</div>
+                          <div>{data.value}</div>
+                        </div>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                  {statisticsDataBottom.map((data, index) => (
+                    <Card key={index} style={{ width: '300px', margin: '20px' }}>
+                      <div>
+                        <div>{data.icon}</div>
+                        <div>
+                          <div>{data.title}</div>
+                          <div>{data.value}</div>
+                        </div>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              </div>
             </ContentDisplay>
           </Display>
         </Content>
       </Container>
-    </Wrapper>
+    </Modal>
   );
-}
+};
+
+export default Monitor;
