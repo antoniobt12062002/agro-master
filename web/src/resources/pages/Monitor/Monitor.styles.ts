@@ -1,5 +1,3 @@
-// Monitor.styles.ts
-
 import { Tag } from 'antd';
 import styled from 'styled-components';
 
@@ -19,16 +17,18 @@ export const Content = styled.div`
 
 export const Display = styled.div`
   background: var(--white);
+  box-shadow: 8px 10px 10px 0px rgba(0, 0, 0, 0.25);
   padding: 1rem;
-  width: 100%;
+  width: min(100%, 750px);
   border-radius: 4px;
-  height: 100%;
+  border: 1px solid var(--grey-1);
+  height: 500px;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 1rem;
 `;
-
 export const Header = styled.div`
   display: flex;
   justify-content: space-between;
@@ -62,7 +62,7 @@ export const ContentDisplay = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  flex-grow: 1; /* Ocupa o espaço restante verticalmente */
+  height: 100%;
   background: var(--white-1);
   border-radius: 4px;
   overflow-y: scroll;

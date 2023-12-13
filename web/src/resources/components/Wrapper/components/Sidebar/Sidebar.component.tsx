@@ -47,9 +47,9 @@ export function Sidebar({
 
           <SidebarTitle>Inicio</SidebarTitle>
         </SidebarItem>
-        <SidebarItem to='/history'>
+        <SidebarItem to='/monitor-resource'>
 
-          <SidebarTitle>Historico</SidebarTitle>
+          <SidebarTitle>Monitor de recursos</SidebarTitle>
         </SidebarItem>
         <SidebarItem to='/user'>
 

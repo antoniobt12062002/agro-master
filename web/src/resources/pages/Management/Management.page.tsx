@@ -1,11 +1,10 @@
-// Management.tsx
-
+// Management.jsx
 import React, { useState } from 'react';
 import { MapContainer, TileLayer, Polygon, ZoomControl } from 'react-leaflet';
 import { LatLngTuple } from 'leaflet';
 import { Wrapper } from '../../components';
-import Monitor from '../Monitor/Monitor.page';
-import { Container } from '../Monitor/Monitor.styles';
+import { Container } from './Mangement.styles';
+import SoilStatistics from './SoilStatistics';
 
 export function Management(): JSX.Element {
   const { latitude, longitude, zoom, mapboxAccessToken } = {
@@ -26,17 +25,17 @@ export function Management(): JSX.Element {
   const limeHoverOptions = { color: '#086404', fillOpacity: 0.8 };
 
   const [isHovered, setIsHovered] = useState(false);
-  const [showMonitor, setShowMonitor] = useState(false);
+  const [showStatistics, setShowStatistics] = useState(false);
 
   const handleMouseOver = () => setIsHovered(true);
   const handleMouseOut = () => setIsHovered(false);
 
   const handlePolygonClick = () => {
-    setShowMonitor(!showMonitor);
+    setShowStatistics(!showStatistics);
   };
 
-  const handleCloseMonitor = () => {
-    setShowMonitor(false);
+  const handleCloseStatistics = () => {
+    setShowStatistics(false);
   };
 
   return (
@@ -65,8 +64,8 @@ export function Management(): JSX.Element {
           <ZoomControl position="bottomright" />
         </MapContainer>
 
-        {showMonitor && (
-          <Monitor onClose={handleCloseMonitor} visible={showMonitor} />
+        {showStatistics && (
+          <SoilStatistics onClose={handleCloseStatistics} />
         )}
       </Container>
     </Wrapper>
