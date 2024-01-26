@@ -29,8 +29,14 @@ const Monitor: React.FC<MonitorProps> = ({ onClose, visible }) => {
   useEffect(() => {
     socket.on('message', ({ data }) => {
       const dataArray: string[] = data.split(',');
-
-      const numericValues: number[] = dataArray.slice(0, dataArray.length - 2).map(Number);
+      
+      const numericValues: number[] = dataArray.slice(0, dataArray.length).map(Number);
+      
+      numericValues.map((value, index) => {
+        if (index === 0 || index === 2) {
+          numericValues[index] = Number(value.toFixed(2)) / 10;
+        }
+      });
 
       const dateAndTime: string = `${dataArray[dataArray.length - 2]} ${dataArray[dataArray.length - 1]}`;
 
@@ -59,10 +65,10 @@ const Monitor: React.FC<MonitorProps> = ({ onClose, visible }) => {
     scrollToBottom();
   }, [dataValues, timestamp]);
 
-  const sensorDataLabelsTop = ['Nitrogênio', 'Fósforo', 'Potássio'];
-  const sensorDataLabelsBottom = ['Temperatura', 'Umidade', 'pH'];
+  const sensorDataLabelsTop = ['Temperatura', 'Umidade', 'pH'];
+  const sensorDataLabelsBottom = ['Nitrogenio', 'Fosforo', 'Potassio'];
 
-  const sensorDataUnits = ['mg/kg', 'mg/kg', 'mg/kg', '°C', '%', ''];
+  const sensorDataUnits = ['°C', '%', '', 'mg/kg', 'mg/kg', 'mg/kg'];
 
   const statisticsDataTop = sensorDataLabelsTop.map((label, index) => ({
     title: label,

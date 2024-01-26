@@ -11,29 +11,37 @@ export class SensorSoloService {
   ) {}
 
   async saveSensorDataFromMqtt(data: string) {
-    console.log('Received MQTT data:', data);
-
+    
     try {
       // Ajuste a string para um formato JSON válido
       const adjustedData = `[${data}]`;
-
+      
       // Parse os dados recebidos do MQTT para um array
       const sensorData = JSON.parse(adjustedData);
 
+
+      const temperatura = Number(sensorData[0]) / 10;
+      const umidade = Number(sensorData[1]);
+      const ph = Number(sensorData[2]) / 10;
+      const nitrogenio = Number(sensorData[3]);
+      const fosforo = Number(sensorData[4]);
+      const potassio = Number(sensorData[5]);
+
+      console.log('Parsed MQTT data:', temperatura, umidade, ph, nitrogenio, fosforo, potassio);
+
       // Crie uma nova instância da entidade SensorSoloEntity
       const newSensorData = this.sensorSoloRepository.create({
-        temperatura: parseFloat(sensorData[0]),
-        umidade: parseFloat(sensorData[1]),
-        condutividade: parseFloat(sensorData[2]),
-        ph: parseFloat(sensorData[3]),
-        nitrogenio: parseFloat(sensorData[4]),
-        fosforo: parseFloat(sensorData[5]),
-        potassio: parseFloat(sensorData[6]),
+        temperatura,
+        umidade,
+        ph,
+        nitrogenio,
+        fosforo,
+        potassio,
       });
-
+      
       // Salve os dados no banco de dados
       const savedData = await this.sensorSoloRepository.save(newSensorData);
-
+      
       return savedData;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);

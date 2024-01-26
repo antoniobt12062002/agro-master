@@ -8,12 +8,11 @@ export class SensorSoloEntity {
 
   @Column({ type: 'float', nullable: true })
   temperatura: number;
+  // @Column({ type: 'numeric', precision: 5, scale: 1, nullable: true })
+  // temperatura: number;
 
   @Column({ type: 'float', nullable: true })
   umidade: number;
-
-  @Column({ type: 'float', nullable: true })
-  condutividade: number;
 
   @Column({ type: 'float', nullable: true })
   ph: number;
