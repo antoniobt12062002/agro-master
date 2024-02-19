@@ -21,11 +21,11 @@ export class SensorSoloService {
 
 
       const temperatura = Number(sensorData[0]) / 10;
-      const umidade = Number(sensorData[1]);
+      const umidade = Number(sensorData[1] / 10);
       const ph = Number(sensorData[2]) / 10;
-      const nitrogenio = Number(sensorData[3]);
-      const fosforo = Number(sensorData[4]);
-      const potassio = Number(sensorData[5]);
+      const nitrogenio = Number(sensorData[3]/ 10);
+      const fosforo = Number(sensorData[4]/ 10);
+      const potassio = Number(sensorData[5]/ 10);
 
       console.log('Parsed MQTT data:', temperatura, umidade, ph, nitrogenio, fosforo, potassio);
 

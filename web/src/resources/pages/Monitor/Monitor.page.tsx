@@ -33,7 +33,7 @@ const Monitor: React.FC<MonitorProps> = ({ onClose, visible }) => {
       const numericValues: number[] = dataArray.slice(0, dataArray.length).map(Number);
       
       numericValues.map((value, index) => {
-        if (index === 0 || index === 2) {
+        if (index === 0 || index === 1 || index === 2) {
           numericValues[index] = Number(value.toFixed(2)) / 10;
         }
       });
