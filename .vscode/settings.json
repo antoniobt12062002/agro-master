@@ -14,9 +14,15 @@
     },
     {
       "name": "Ftp",
-      "host": "localhost",
+      "host": "mqtt://ec2-15-228-45-0.sa-east-1.compute.amazonaws.com:1883",
       "port": 1883,
       "clientId": "vsmqtt_client_32ae"
+    },
+    {
+      "name": "aws",
+      "host": "mqtt://15.228.45.0:1883",
+      "port": 1883,
+      "clientId": "vsmqtt_client_4eb1"
     }
   ]
 }
