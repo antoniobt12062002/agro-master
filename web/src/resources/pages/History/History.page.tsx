@@ -4,6 +4,7 @@ import { Wrapper } from '../../components/';
 import { Line } from 'react-chartjs-2';
 import Chart from 'chart.js/auto';
 import { CategoryScale } from 'chart.js';
+import { Http } from 'app/data/api/config/Http';
 
 Chart.register(CategoryScale);
 
@@ -98,8 +99,8 @@ export function History(): JSX.Element {
 
   const requestRecort = useCallback(async () => {
     try {
-      const { data } = await axios.get<Dados[]>(
-        'http://localhost:4040/sensor-solo/get-all-data'
+      const { data } = await Http.get<Dados[]>(
+        '/sensor-solo/get-all-data'
       );
 
       const dadosPorDia: Record<string, Dados> = {};
